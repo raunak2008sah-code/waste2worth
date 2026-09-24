@@ -17,19 +17,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   const { user } = useAuth();
   const [impactData, setImpactData] = useState<any>(null);
-  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [recommendations, setRecommendations] = useState<any[]>([
+    {
+      id: 'demo-rec-1',
+      title: 'Self-Watering Planters from PET Bottles',
+      description: 'Convert used transparent soda bottles into automated sub-irrigated planting pods.',
+      cover_image: 'https://images.unsplash.com/photo-1592150621744-aca64f48394a?w=700&q=80',
+      difficulty: 'Easy',
+      recommendation_reason: 'Top Upcycling Project'
+    },
+    {
+      id: 'demo-rec-2',
+      title: 'Modular Desk Organizer from Corrugated Boxes',
+      description: 'Transform shipping boxes into sleek, durable compartments for cables, stationery, and books.',
+      cover_image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=700&q=80',
+      difficulty: 'Medium',
+      recommendation_reason: 'Trending Cardboard Project'
+    },
+    {
+      id: 'demo-rec-3',
+      title: 'Woven Coasters from Denim Offcuts',
+      description: 'Durable, heat-resistant decorative coasters braided from discarded jeans and scrap fabrics.',
+      cover_image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=700&q=80',
+      difficulty: 'Easy',
+      recommendation_reason: 'Zero-Waste Fabric Craft'
+    }
+  ]);
 
   useEffect(() => {
     // Fetch non-fabricated environmental impact statistics (Section 5)
     fetch('/api/impact')
-      .then(res => res.json())
-      .then(data => setImpactData(data))
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data) setImpactData(data);
+      })
       .catch(err => console.error('Failed to load impact stats:', err));
 
     // Fetch personalized project recommendations (Section 37)
     fetch('/api/shopping/recommendations')
-      .then(res => res.json())
-      .then(data => setRecommendations(data.recommendations || []))
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.recommendations && data.recommendations.length > 0) {
+          setRecommendations(data.recommendations);
+        }
+      })
       .catch(err => console.error('Failed to load recommendations:', err));
   }, [user]);
 
