@@ -15,5 +15,20 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fallback for static GitHub Pages when serving root index.html directly
+      if (window.location.hostname.includes('github.io')) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/waste2worth/assets/index-CCuRjNAB.css';
+        document.head.appendChild(link);
+
+        var s = document.createElement('script');
+        s.type = 'module';
+        s.crossOrigin = 'anonymous';
+        s.src = '/waste2worth/assets/index-CLNlth8C.js';
+        document.body.appendChild(s);
+      }
+    </script>
   </body>
 </html>
